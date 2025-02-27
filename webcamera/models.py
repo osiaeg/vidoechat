@@ -1,3 +1,3 @@
-from django.db import model  # noqa: F401s
+from django.db import models  # noqa: F401
 
 # Create your models here.
