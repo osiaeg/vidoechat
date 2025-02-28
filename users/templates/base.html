@@ -1,26 +1,36 @@
-{% load static %}
-<html>
-    <head>
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/app.js' %}" defer></script>
+    <title>My Site</title>
+  </head>
+  <body>
+  	<header>
+  		{%if request.user.is_authenticated %}
+  			<span>Hi {{ request.user.username | title }}</span>
+  			<a href="{% url 'logout' %}">Logout</a>
+  		{%else%}
+  			<a href="{% url 'login' %}">Login</a>
+  		{%endif%}
+  	</header>
+  	<main>
+	  	{% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</div>
+			{% endfor %}
+			</div>
+		{% endif %}
 
-        <meta charset="utf-8">
-        <meta name="description" content="WebRTC code samples">
-        <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
-        <meta itemprop="description" content="Client-side WebRTC code samples">
-        <meta itemprop="image" content="{% static 'webcamera/images/webrtc-icon-192x192.png' %}">
-        <meta itemprop="name" content="WebRTC code samples">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta id="theme-color" name="theme-color" content="#ffffff">
+	    {%block content%}
+	    {%endblock content%}
+  	</main>
 
-        <base target="_blank">
-
-        <title>Select audio and video sources</title>
-
-        <link rel="icon" sizes="192x192" href="{% static 'webcamera/images/webrtc-icon-192x192.png' %}">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-
-    </head>
-    <body>
-        {% block content %}
-        {% endblock %}
-    </body>
+  </body>
 </html>

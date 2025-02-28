@@ -8,21 +8,32 @@ from loguru import logger
 
 def sign_in(request):
     if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect("webcamera")
+
         form = LoginForm()
         return render(request, "users/login.html", {"form": form})
 
     if request.method == "POST":
         form = LoginForm(request.POST)
+
         if form.is_valid():
-            authenticate(request, username=form.username, password=form.password)
-            return redirect("webcamera", permanent=True)
-        else:
-            return redirect("login")
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                messages.success(request, f"Hi {username.title()}, welcome back!")
+                return redirect("webcamera")
+
+        messages.error(request, "Invalid username or password")
+        return render(request, "users/login.html", {"form": form})
 
 
 def sign_out(request):
-    # logout()
-    pass
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect("login")
 
 
 def sign_up(request: HttpRequest):
