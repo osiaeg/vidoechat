@@ -10,6 +10,7 @@ python = "^3.13"
 django = "^5.1.6"
 psycopg = "^3.2.5"
 python-dotenv = "^1.0.1"
+loguru = "^0.7.3"
 
 
 [tool.poetry.group.dev.dependencies]

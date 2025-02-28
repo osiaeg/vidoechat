@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
-    "webcamera",
-    "login",
+    "users.apps.UsersConfig",
+    "webcamera.apps.WebcameraConfig",
 ]
 
 MIDDLEWARE = [
